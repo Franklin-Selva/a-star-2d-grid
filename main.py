@@ -1,9 +1,6 @@
 import unittest
 import heapq
 
-grid = [[0, 0, 0, 0, 0, 1], [1, 1, 0, 0, 0, 1], [0, 0, 0, 1, 0, 0], [0, 1, 1, 0, 0, 1], [0, 1, 0, 0, 1, 0],
-        [0, 1, 0, 0, 0, 2]]
-
 class Cell(object):
     def __init__(self, x, y, reachable):
         """Initialize new cell.
@@ -78,7 +75,7 @@ class AStar(object):
         """
         return self.cells[x * self.grid_height + y]
 
-    def get_adjacent_cells(self, cell):
+    def get_adjacent_cells(self, parent):
         """Returns adjacent cells to a cell.
 
         Clockwise starting from the one on the right.
@@ -86,16 +83,16 @@ class AStar(object):
         @param cell get adjacent cells for this cell
         @returns adjacent cells list.
         """
-        cells = []
-        if cell.x < self.grid_width-1:
-            cells.append(self.get_cell(cell.x+1, cell.y))
-        if cell.y > 0:
-            cells.append(self.get_cell(cell.x, cell.y-1))
-        if cell.x > 0:
-            cells.append(self.get_cell(cell.x-1, cell.y))
-        if cell.y < self.grid_height-1:
-            cells.append(self.get_cell(cell.x, cell.y+1))
-        return cells
+        adj = []
+        if parent.x < self.grid_width-1:
+            adj.append(self.get_cell(parent.x+1, parent.y))
+        if parent.y > 0:
+            adj.append(self.get_cell(parent.x, parent.y-1))
+        if parent.x > 0:
+            adj.append(self.get_cell(parent.x-1, parent.y))
+        if parent.y < self.grid_height-1:
+            adj.append(self.get_cell(parent.x, parent.y+1))
+        return adj
 
     def get_path(self):
         cell = self.end
